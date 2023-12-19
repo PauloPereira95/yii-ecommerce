@@ -5,6 +5,7 @@
 
 
 // use Yii;
+use yii\helpers\Url;
 use yii\bootstrap5\Html;
 use backend\assets\AppAsset;
 
@@ -308,7 +309,7 @@ AppAsset::register($this);
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <a class="btn btn-primary" href="login.html">Logout</a>
+                            <a data-method="post" class="btn btn-primary" href="<?php echo  Url::to(['/site/logout']) ?>">Logout</a>
                         </div>
                     </div>
                 </div>
