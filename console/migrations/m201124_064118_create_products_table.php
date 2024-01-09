@@ -9,7 +9,7 @@ use yii\db\Migration;
  * - `{{%user}}`
  * - `{{%user}}`
  */
-class m231222_102547_create_products_table extends Migration
+class m201124_064118_create_products_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -21,9 +21,9 @@ class m231222_102547_create_products_table extends Migration
             'name' => $this->string(255)->notNull(),
             'description' => 'LONGTEXT',
             'image' => $this->string(2000),
-            'price' => $this->decimal(10,2)->notNull(),
+            'price' => $this->decimal(10, 2)->notNull(),
             'status' => $this->tinyInteger(2)->notNull(),
-            'create_at' => $this->integer(11),
+            'created_at' => $this->integer(11),
             'updated_at' => $this->integer(11),
             'created_by' => $this->integer(11),
             'updated_by' => $this->integer(11),
