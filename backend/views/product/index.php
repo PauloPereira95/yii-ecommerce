@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             [
-                'label' => 'price',
+                'label' => 'Product Image',
                 'content' => function ($model){
                     return Html::img($model->getImageUrl(),['style' => 'width:100px']);
                 }
