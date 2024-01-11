@@ -29,16 +29,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             [
-                'label' => 'Product Image',
+                'attribute' => 'Product Image',
                 'content' => function ($model){
                     return Html::img($model->getImageUrl(),['style' => 'width:100px']);
                 }
              ],
             'name',
-            'price',
-            'status',
-            'created_at',
-            //'updated_at',
+            'price:currency',
+            [
+                'attribute' => 'status',
+                'content' => function ($model) {
+                    return Html::tag('span', $model->status ? 'Active' : 'Draft' , [
+                        'class' => $model->status ? 'badge badge-success' : 'badge badge-danger'
+                    ]);
+                }
+            ],
+            // formate dates 
+            'created_at:dateTime',
+            'updated_at:dateTime',
             //'created_by',
             //'updated_by',
             [
