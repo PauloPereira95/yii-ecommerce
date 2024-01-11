@@ -15,7 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <p>
         <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
@@ -27,33 +29,51 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'id',
             [
+                'attribute' => 'id',
+                'contentOptions' => [
+
+                    'style' => 'width: 80px;'
+                ]
+            ],
+            [
+
                 'attribute' => 'Product Image',
-                'content' => function ($model){
-                    return Html::img($model->getImageUrl(),['style' => 'width:100px']);
-                }
-             ],
+                'content' => function ($model) {
+                        return Html::img($model->getImageUrl(), ['style' => 'width:100px']);
+                    }
+            ],
             'name',
             'price:currency',
             [
                 'attribute' => 'status',
                 'content' => function ($model) {
-                    return Html::tag('span', $model->status ? 'Active' : 'Draft' , [
-                        'class' => $model->status ? 'badge badge-success' : 'badge badge-danger'
-                    ]);
-                }
+                        return Html::tag('span', $model->status ? 'Active' : 'Draft', [
+                            'class' => $model->status ? 'badge badge-success' : 'badge badge-danger',
+                        ]);
+                    }
             ],
-            // formate dates 
-            'created_at:dateTime',
-            'updated_at:dateTime',
+            [
+                'attribute' => 'created_at',
+                'format' => ['datetime'],
+                'contentOptions' => [
+                    'style' => 'white-space:nowrap;'
+                ]
+            ],
+            [
+                'attribute' => 'updated_at',
+                'format' => ['datetime'],
+                'contentOptions' => [
+                    'style' => 'white-space:nowrap;'
+                ]
+            ],
             //'created_by',
             //'updated_by',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Product $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                        return Url::toRoute([$action, 'id' => $model->id]);
+                    }
             ],
         ],
     ]); ?>
