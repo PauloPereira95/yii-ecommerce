@@ -3,6 +3,11 @@
 namespace common\models;
 
 use Yii;
+use yii\base\Behavior;
+use yii\behaviors\TimestampBehavior;
+use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "{{%products}}".
@@ -25,6 +30,11 @@ use Yii;
  */
 class Product extends \yii\db\ActiveRecord
 {
+    /** 
+     * @var UploadedFile $uploadedFile
+     * 
+     */
+    public $imageFile;
     /**
      * {@inheritdoc}
      */
@@ -42,6 +52,7 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'price', 'status'], 'required'],
             [['description'], 'string'],
             [['price'], 'number'],
+            [['imageFile'], 'image', 'extensions' => 'png,jpg,jpeg,webp', 'maxSize' => 10 * 1024 * 1024], // set max size image to 10 MB
             [['status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['image'], 'string', 'max' => 2000],
@@ -60,6 +71,7 @@ class Product extends \yii\db\ActiveRecord
             'name' => 'Name',
             'description' => 'Description',
             'image' => 'Product Image',
+            'imageFile' => 'Product Image ',
             'price' => 'Price',
             'status' => 'Published',
             'created_at' => 'Created At',
@@ -68,7 +80,12 @@ class Product extends \yii\db\ActiveRecord
             'updated_by' => 'Updated By',
         ];
     }
-
+    public function behaviors(){
+        return [
+            TimestampBehavior::class,
+            BlameableBehavior::class,
+        ] ;
+    }
     /**
      * Gets query for [[CartItems]].
      *
@@ -116,5 +133,32 @@ class Product extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \common\models\query\ProductQuery(get_called_class());
+    }
+    public function save($runValidation = true, $attributeNames = null)
+    {
+
+        if ($this->imageFile) {
+            // full path
+            // $this->image = Yii::getAlias('@frontend/web/storage/products/'.Yii::$app->security->generateRandomString(255).'/'. $this->imageFile->name);
+            // path relativo
+            $this->image = '/products/' . Yii::$app->security->generateRandomString() . '/' . $this->imageFile->name;
+        }
+        $transaction = Yii::$app->db->beginTransaction();
+        $ok = parent::save($runValidation, $attributeNames);
+        if ($ok) {
+            $fullPath = Yii::getAlias('@frontend/web/storage' . $this->image);
+            $dir = dirname($fullPath);
+            // if directory is not created and image is not saved rollback operation and return false
+            if (!FileHelper::createDirectory($dir, 0777, true) | !$this->imageFile->saveAs($fullPath)) {
+                $transaction->rollBack();
+                return false;
+            }
+            $transaction->commit();
+        }
+        return $ok;
+
+    }
+    public function getImageUrl(){
+        return Yii::$app->params['frontendUrl'].'/storage'.$this->image;
     }
 }
