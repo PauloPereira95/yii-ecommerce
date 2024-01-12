@@ -4,10 +4,11 @@ namespace common\models;
 
 use Yii;
 use yii\base\Behavior;
-use yii\behaviors\TimestampBehavior;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
+use yii\helpers\StringHelper;
 use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%products}}".
@@ -160,5 +161,8 @@ class Product extends \yii\db\ActiveRecord
     }
     public function getImageUrl(){
          return $this->image ?  Yii::$app->params['frontendUrl'].'/storage'.$this->image :  Yii::$app->params['frontendUrl'].'/img/noimage.png' ;
+    }
+    public function getShortDescription(){
+        return StringHelper::truncateWords(strip_tags($this->description),30);
     }
 }
