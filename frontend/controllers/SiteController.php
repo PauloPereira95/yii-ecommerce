@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\User;
+use common\models\UserAddress;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -80,7 +82,7 @@ class SiteController extends Controller
         $dataProvider = new ActiveDataProvider(
             [
                 'query' => Product::find()->published(),
-               
+
             ]
 
         );
@@ -188,8 +190,8 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {
@@ -225,6 +227,22 @@ class SiteController extends Controller
 
         return $this->render('resendVerificationEmail', [
             'model' => $model
+        ]);
+    }
+
+    public function actionProfile()
+    {
+        /** @var User $user */
+        $user = Yii::$app->user->identity;
+        $userAddresses = $user->addresses;
+        $userAddress = new UserAddress();
+        $userAddress->user_id = $user->id;
+        if (!empty($userAddresses)) {
+            $userAddress= $userAddress[0];
+        }
+        return $this->render('profile', [
+            'user' => $user,
+            'userAddress' => $userAddress
         ]);
     }
 }
