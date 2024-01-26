@@ -9,6 +9,7 @@ namespace common\models\query;
  */
 class UserAddressQuery extends \yii\db\ActiveQuery
 {
+
     /*public function active()
     {
         return $this->andWhere('[[status]]=1');

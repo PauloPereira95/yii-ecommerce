@@ -234,15 +234,25 @@ class SiteController extends Controller
     {
         /** @var User $user */
         $user = Yii::$app->user->identity;
-        $userAddresses = $user->addresses;
-        $userAddress = new UserAddress();
-        $userAddress->user_id = $user->id;
-        if (!empty($userAddresses)) {
-            $userAddress= $userAddress[0];
-        }
+        $userAddress = $user->getAddress();
+
         return $this->render('profile', [
             'user' => $user,
             'userAddress' => $userAddress
+        ]);
+
+    }
+    public function actionUpdateAddress()
+    {
+        $user = Yii::$app->user->identity;
+        $userAddress = $user->getAddress();
+        $success = false;
+        if ($userAddress->load(Yii::$app->request->post()) && $userAddress->save()){
+            $success = true ;
+        }
+        return $this->renderAjax('user_address' , [
+            'userAddress' => $userAddress,
+            'success' => $success
         ]);
     }
 }

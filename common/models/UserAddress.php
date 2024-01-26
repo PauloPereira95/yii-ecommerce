@@ -19,6 +19,7 @@ use Yii;
  */
 class UserAddress extends \yii\db\ActiveRecord
 {
+    
     /**
      * {@inheritdoc}
      */
