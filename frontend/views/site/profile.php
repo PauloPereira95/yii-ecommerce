@@ -18,9 +18,13 @@ use yii\web\View;
                 Address Information
             </div>
             <div class="card-body">
-               <?= $this->render('user_address' , [
-                       'userAddress' => $userAddress
-               ]) ?>
+                <?php \yii\widgets\Pjax::begin([
+                    'enablePushState' => false,
+                ]) ?>
+                <?= $this->render('user_address', [
+                    'userAddress' => $userAddress
+                ]) ?>
+                <?php \yii\widgets\Pjax::end() ?>
             </div>
 
         </div>
@@ -32,32 +36,14 @@ use yii\web\View;
                 Account information
             </div>
             <div class="card-body">
-                <?php $form = ActiveForm::begin(); ?>
-                <div class="row">
-                    <div class="col-md-6">
-                        <?= $form->field($user, 'firstname')->textInput(['autofocus' => true]) ?>
-                    </div>
-                    <div class="col-md-6">
-                        <?= $form->field($user, 'lastname')->textInput(['autofocus' => true]) ?>
-                    </div>
+                <?php \yii\widgets\Pjax::begin([
+                    'enablePushState' => false,
+                ]) ?>
+                <?= $this->render('user_account', [
+                    'user' => $user
+                ]) ?>
+                <?php \yii\widgets\Pjax::end() ?>
 
-                </div>
-                <?= $form->field($user, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($user, 'email') ?>
-                <div class="row">
-                    <div class="col">
-                        <?= $form->field($user, 'password')->passwordInput() ?>
-                    </div>
-                    <div class="col">
-                        <?= $form->field($user, 'passwordConfirm')->passwordInput() ?>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <?= Html::submitButton('Update', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
-                </div>
-
-                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>

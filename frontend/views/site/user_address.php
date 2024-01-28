@@ -2,13 +2,11 @@
 
 use common\models\UserAddress;
 use yii\bootstrap5\ActiveForm;
-?>
 
-<?php
+/** @var User $user */
 /** @var UserAddress $userAddress */
-\yii\widgets\Pjax::begin([
-        'enablePushState' => false
-]) ?>
+/** @var View $this */
+?>
 <!-- If success as passed as show the div if not , not show the div-->
 <?php if (isset($success) && $success): ?>
 <div class="alert alert-success">
@@ -28,4 +26,3 @@ use yii\bootstrap5\ActiveForm;
 <?= $addressForm->field($userAddress, 'zipcode') ?>
     <button class="btn btn-primary">Update</button>
 <?php ActiveForm::end() ?>
-<?php \yii\widgets\Pjax::end() ?>
