@@ -20,10 +20,9 @@ use yii\web\View;
 
 <?php $form = ActiveForm::begin(
     [
-        'action' => ['/site/update-account'],
+        'action' => ['/profile/update-account'],
         'options' =>['data-pjax' => 1]
-    ]
-); ?>
+    ]); ?>
 <div class="row">
     <div class="col-md-6">
         <?= $form->field($user, 'firstname')->textInput(['autofocus' => true]) ?>
