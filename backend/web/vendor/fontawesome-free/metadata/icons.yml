@@ -160,7 +160,7 @@ air-freshener:
   label: Air Freshener
   search:
     terms:
-      - car
+      - cart
       - deodorize
       - fresh
       - pine
@@ -8152,7 +8152,7 @@ gas-pump:
   label: Gas Pump
   search:
     terms:
-      - car
+      - cart
       - fuel
       - gasoline
       - petrol
@@ -13742,7 +13742,7 @@ parking:
   search:
     terms:
       - auto
-      - car
+      - cart
       - garage
       - meter
   styles:
@@ -18590,8 +18590,8 @@ taxi:
     terms:
       - cab
       - cabbie
-      - car
-      - car service
+      - cart
+      - cart service
       - lyft
       - machine
       - transportation

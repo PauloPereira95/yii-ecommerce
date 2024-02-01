@@ -690,7 +690,7 @@ vaadin:
   url: 'http://vaadin.com'
 via:
   icons:
-    - car-crash
+    - cart-crash
     - draw-polygon
     - house-damage
     - layer-group

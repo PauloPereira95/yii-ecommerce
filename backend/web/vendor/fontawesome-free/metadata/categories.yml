@@ -208,11 +208,11 @@ automotive:
     - ambulance
     - bus
     - bus-alt
-    - car
-    - car-alt
-    - car-battery
-    - car-crash
-    - car-side
+    - cart
+    - cart-alt
+    - cart-battery
+    - cart-crash
+    - cart-side
     - caravan
     - charging-station
     - gas-pump
@@ -1107,7 +1107,7 @@ hotel:
     - bath
     - bed
     - briefcase
-    - car
+    - cart
     - cocktail
     - coffee
     - concierge-bell
@@ -1396,7 +1396,7 @@ maps:
     - bookmark
     - briefcase
     - building
-    - car
+    - cart
     - coffee
     - crosshairs
     - directions
@@ -1707,7 +1707,7 @@ objects:
     - camera
     - camera-retro
     - candy-cane
-    - car
+    - cart
     - carrot
     - church
     - clipboard
@@ -2478,10 +2478,10 @@ vehicles:
     - bicycle
     - bus
     - bus-alt
-    - car
-    - car-alt
-    - car-crash
-    - car-side
+    - cart
+    - cart-alt
+    - cart-crash
+    - cart-side
     - fighter-jet
     - helicopter
     - horse
