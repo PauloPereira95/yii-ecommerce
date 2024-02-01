@@ -3,11 +3,31 @@
 namespace frontend\controllers;
 
 use common\models\CartItem;
+use common\models\Product;
 use Yii;
+use yii\filters\ContentNegotiator;
+use yii\helpers\Url;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class CartController extends Controller
 {
+    public function behaviors()
+    {
+        //return im json on add function
+        return [
+            [
+                'class' => ContentNegotiator::class,
+                'only' => ['add'],
+                'formats' => [
+                    'application/json' => Response::FORMAT_JSON,
+                    'application/xml' => Response::FORMAT_JSON,
+                ]
+            ]
+        ];
+    }
+
     public function actionIndex()
     {
         // If user is not authorize / (Is Guestged)
@@ -26,5 +46,39 @@ WHERE c.created_by = :userId", ['userId' => Yii::$app->user->id])
                 'items' => $cartItems
             ]
         );
+    }
+
+    public function actionAdd()
+    {
+        $id = Yii::$app->request->post('id');
+        $product = Product::find()->id($id)->published()->one();
+        if (!$product) {
+            throw new notFoundHttpException('Product Does not Exists');
+        }
+        if (Yii::$app->user->isGuest) {
+            // Savee in session
+        } else {
+            $userId = Yii::$app->user->id;
+            $cartItem = CartItem::find()->userId($userId)->productId($id)->one();
+            // if product on cart add quantity
+            if ($cartItem)  {
+                $cartItem->quantity++;
+            } else {
+                $cartItem = new CartItem();
+                $cartItem->product_id = $id;
+                $cartItem->created_by = Yii::$app->user->id;
+                $cartItem->quantity = 1;
+            }
+            if ($cartItem->save()) {
+                return [
+                    'success' => true
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'errros' => $cartItem->errors
+                ];
+            }
+        }
     }
 }

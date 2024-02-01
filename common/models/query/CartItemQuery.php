@@ -37,6 +37,9 @@ class CartItemQuery extends \yii\db\ActiveQuery
      * @return CartItemQuery
      */
     public function userId($userId){
-        return $this->andWhere(['createdBy'=> $userId]);
+        return $this->andWhere(['created_by'=> $userId]);
+    }
+    public function  productId($productId){
+        return $this->andWhere(['product_id' => $productId]);
     }
 }
