@@ -32,7 +32,8 @@ class CartController extends \frontend\base\Controller
     {
         // If user is not authorize / (Is Guestged)
         if (Yii::$app->user->isGuest) {
-
+            // show products save in session if is empty show empty array
+            $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY, []);
         } else {
             $cartItems = Cartitem::findBySql("SELECT c.product_id as id, p.image, p.name, p.price, c.quantity, p.price * c.quantity AS total_price
 FROM cart_items c
@@ -57,11 +58,39 @@ WHERE c.created_by = :userId", ['userId' => Yii::$app->user->id])
         }
         if (Yii::$app->user->isGuest) {
             // Savee in session
+
+            // if already have products on session pass to $cartItems if pass empty array
+            $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY, []);
+            $found = false;
+            foreach ($cartItems as &$cartItem) {
+                if ($cartItem['id'] == $id) {
+                    $cartItem['quantity']++;
+                    $found = true;
+                    break;
+                }
+            }
+            //if not found create
+            if (!$found) {
+                $cartItem =
+                    [
+                        'id' => $id,
+                        'name' => $product->name,
+                        'image' => $product->image,
+                        'price' => $product->price,
+                        'quantity' => 1,
+                        'total_price' => $product->price
+
+                    ];
+                //Add  $cartItem to  $cartItems
+                $cartItems[] = $cartItem;
+            }
+            // save in session
+            Yii::$app->session->set(CartItem::SESSION_KEY, $cartItems);
         } else {
             $userId = Yii::$app->user->id;
             $cartItem = CartItem::find()->userId($userId)->productId($id)->one();
             // if product on cart add quantity
-            if ($cartItem)  {
+            if ($cartItem) {
                 $cartItem->quantity++;
             } else {
                 $cartItem = new CartItem();
