@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use function PHPUnit\Framework\throwException;
 
-class ProfileController extends Controller
+class ProfileController extends \frontend\base\Controller
 {
     public function behaviors()
     {

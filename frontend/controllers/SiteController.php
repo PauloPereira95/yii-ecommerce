@@ -23,7 +23,7 @@ use frontend\models\ResendVerificationEmailForm;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends \frontend\base\Controller
 {
     /**
      * {@inheritdoc}

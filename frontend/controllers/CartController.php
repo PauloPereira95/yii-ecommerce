@@ -11,7 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
-class CartController extends Controller
+class CartController extends \frontend\base\Controller
 {
     public function behaviors()
     {
