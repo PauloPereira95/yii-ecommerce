@@ -6,6 +6,7 @@ use common\models\CartItem;
 use common\models\Product;
 use Yii;
 use yii\filters\ContentNegotiator;
+use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -23,6 +24,13 @@ class CartController extends \frontend\base\Controller
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                     'application/xml' => Response::FORMAT_JSON,
+                ]
+            ],
+            [
+                'class' => VerbFilter::class,
+                'actions' =>
+                [
+                    'delete' => ['post' , 'DELETE']
                 ]
             ]
         ];
@@ -110,4 +118,24 @@ WHERE c.created_by = :userId", ['userId' => Yii::$app->user->id])
             }
         }
     }
+
+    public function actionDelete($id)
+    {
+        // isGuest() function on common/helpers
+        if (isGuest()) {
+            $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY, []);
+            foreach ($cartItems as $i => $cartItem) {
+                if ($cartItem['id'] == $id) {
+                    array_splice($cartItems, $i, 1);
+                    break;
+                }
+            }
+            Yii::$app->session->set(CartItem::SESSION_KEY,$cartItems);
+        } else {
+            //  common/currentUserid() function on helpers
+            CartItem::deleteAll(['product_id' => $id , 'create_by' => currentUserid()]);
+        }
+        return $this->redirect(['index']);
+    }
+
 }
