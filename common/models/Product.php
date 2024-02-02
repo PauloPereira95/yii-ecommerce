@@ -160,7 +160,11 @@ class Product extends \yii\db\ActiveRecord
 
     }
     public function getImageUrl(){
-         return $this->image ?  Yii::$app->params['frontendUrl'].'/storage'.$this->image :  Yii::$app->params['frontendUrl'].'/img/noimage.png' ;
+        return self::formatImageUrl($this->image);
+    }
+    public static function formatImageUrl($imagePath){
+
+         return $imagePath ?  Yii::$app->params['frontendUrl'].'/storage'.$imagePath :  Yii::$app->params['frontendUrl'].'/img/noimage.png' ;
     }
     public function getShortDescription(){
         return StringHelper::truncateWords(strip_tags($this->description),30);

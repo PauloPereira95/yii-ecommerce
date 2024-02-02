@@ -26,7 +26,7 @@ use yii\helpers\Url;
                 <tr>
                     <td><?= $item['name'] ?></td>
                     <td>
-                        <img src="<?= Yii::$app->params['frontendUrl'] . '/storage' . $item['image'] ?>"
+                        <img src="<?= \common\models\Product::formatImageUrl($item['image']); ?>"
                              style="width: 100px;"
                              alt="<?= $item['name'] ?>"
                         >
