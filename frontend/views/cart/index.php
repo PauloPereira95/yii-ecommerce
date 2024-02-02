@@ -36,7 +36,7 @@ use yii\helpers\Url;
                     <td><?= $item['quantity'] ?></td>
                     <td><?= $item['total_price'] ?></td>
                     <td>
-                        <?= \yii\bootstrap5\Html::a('Delete ', ['cat/delete', 'id' => $item['id']],
+                        <?= \yii\bootstrap5\Html::a('Delete ', ['cart/delete', 'id' => $item['id']],
                             [
                                 'class' => 'btn btn-outline-danger btn-small',
                                 'data-method' => 'post',
