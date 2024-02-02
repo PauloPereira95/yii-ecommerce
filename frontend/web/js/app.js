@@ -1,4 +1,5 @@
 $(function() {
+    const $cartQuantity = $('#cart-quantity');
     // button to add te product
    const  $addToCart = $('.btn-add-to-cart');
    // listen the event click on teh button
@@ -14,6 +15,7 @@ $(function() {
            data:{id},
            success : function (){
                console.log(arguments);
+               $cartQuantity.text(parseInt($cartQuantity.text() || 0)+1);
            }
        });
    })

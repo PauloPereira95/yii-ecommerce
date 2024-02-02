@@ -3,7 +3,7 @@
 /** @var \yii\web\View $this */
 
 /** @var string $content */
-
+/** @var  */
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
@@ -11,6 +11,7 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 
+$carItemsCount = $this->params['cartItemsCount'];
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -40,7 +41,12 @@ AppAsset::register($this);
             ],
         ]);
         $menuItems = [
-            ['label' => 'Cart', 'url' => ['/cart/index']],
+            [
+                'label' => 'Cart <span id="cart-quantity" class="badge bg-danger" >'.$carItemsCount.'</span>',
+                'url' => ['/cart/index'],
+                'encode' => false
+
+            ],
         ];
         if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
