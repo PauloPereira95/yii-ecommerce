@@ -24,7 +24,7 @@ use yii\helpers\Url;
             <tbody>
             <?php
             foreach ($items as $item) :?>
-                <tr>
+                <tr data-id="<?= $item['id'] ?>" data-url="<?= Url::to(['/cart/change-quantity'])?>">
                     <td><?= $item['name'] ?></td>
                     <td>
                         <img src="<?= \common\models\Product::formatImageUrl($item['image']); ?>"
@@ -33,7 +33,10 @@ use yii\helpers\Url;
                         >
                     </td>
                     <td><?= $item['price'] ?></td>
-                    <td><?= $item['quantity'] ?></td>
+                    <td>
+                        <!-- item-quantity is a class identifier  -->
+                        <input type="number" value="<?= $item['quantity'] ?>" class="form-control item-quantity" style="width:80px;">
+                    </td>
                     <td><?= $item['total_price'] ?></td>
                     <td>
                         <?= \yii\bootstrap5\Html::a('Delete ', ['cart/delete', 'id' => $item['id']],

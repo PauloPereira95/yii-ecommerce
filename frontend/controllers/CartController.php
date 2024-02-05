@@ -65,7 +65,7 @@ WHERE c.created_by = :userId", ['userId' => Yii::$app->user->id])
             throw new notFoundHttpException('Product Does not Exists');
         }
         if (Yii::$app->user->isGuest) {
-            // Savee in session
+            // Save in session
 
             // if already have products on session pass to $cartItems if pass empty array
             $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY, []);
@@ -133,9 +133,38 @@ WHERE c.created_by = :userId", ['userId' => Yii::$app->user->id])
             Yii::$app->session->set(CartItem::SESSION_KEY,$cartItems);
         } else {
             //  common/currentUserid() function on helpers
-            CartItem::deleteAll(['product_id' => $id , 'create_by' => currentUserid()]);
+            CartItem::deleteAll(['product_id' => $id , 'created_by' => currentUserid()]);
         }
         return $this->redirect(['index']);
+    }
+    public function actionChangeQuantity()
+    {
+        $id = Yii::$app->request->post('id');
+        $product = Product::find()->id($id)->published()->one();
+        if(!$product) {
+            return new NotFoundHttpException("Product does not exist ! ");
+        }
+        $quantity = Yii::$app->request->post('quantity');
+
+        // if user is guest get the cart items form session
+        if (isGuest()) {
+            $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY,[]);
+            // take by reference
+            foreach ($cartItems as &$cartItem) {
+               if($cartItem['id'] = $id ) {
+                   $cartItem['quantity'] = $quantity;
+                   break;
+               }
+            }
+            Yii::$app->session->set(CartItem::SESSION_KEY , $cartItems);
+        } else {
+            $cartItem = CartItem::find()->userId(currentUserid())->productId($id)->one();
+            if ($cartItem) {
+                $cartItem->quantity = $quantity;
+                $cartItem->save();
+            }
+        }
+        return CartItem::getTotalQuantityForUser(currentUserid());
     }
 
 }
