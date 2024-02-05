@@ -32,12 +32,12 @@ use yii\helpers\Url;
                              alt="<?= $item['name'] ?>"
                         >
                     </td>
-                    <td><?= $item['price'] ?></td>
+                    <td><?= Yii::$app->formatter->asCurrency($item['price']); ?></td>
                     <td>
                         <!-- item-quantity is a class identifier  -->
                         <input type="number" min="1" value="<?= $item['quantity'] ?>" class="form-control item-quantity" style="width:80px;">
                     </td>
-                    <td><?= $item['total_price'] ?></td>
+                    <td><?= Yii::$app->formatter->asCurrency($item['total_price']) ?></td>
                     <td>
                         <?= \yii\bootstrap5\Html::a('Delete ', ['cart/delete', 'id' => $item['id']],
                             [
