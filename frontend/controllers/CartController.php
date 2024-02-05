@@ -70,9 +70,9 @@ WHERE c.created_by = :userId", ['userId' => Yii::$app->user->id])
             // if already have products on session pass to $cartItems if pass empty array
             $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY, []);
             $found = false;
-            foreach ($cartItems as &$cartItem) {
-                if ($cartItem['id'] == $id) {
-                    $cartItem['quantity']++;
+            foreach ($cartItems as &$item) {
+                if ($item['id'] == $id) {
+                    $item['quantity']++;
                     $found = true;
                     break;
                 }

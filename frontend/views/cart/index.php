@@ -8,7 +8,7 @@ use yii\helpers\Url;
     <div class="card-header">
         <h3>You cart Items</h3>
     </div>
-    <div class="card-body-p-0">
+    <div class="card-body p-0">
         <?php if(!empty($items)) : ?>
         <table class="table table-hover">
             <thead>
