@@ -67,7 +67,13 @@ class CartItem extends \yii\db\ActiveRecord
             ->asArray()->all();
 
     }
-
+    public static function getTotalPriceProduct($product_id)
+    {
+        return CartItem::findBySql("SELECT c.quantity * p.price as total_price
+        FROM cart_items c 
+        INNER JOIN products p on c.product_id = p.id
+        WHERE c.product_id = :product_id" , ['product_id' => $product_id])->scalar();
+    }
     /**
      * {@inheritdoc}
      */
