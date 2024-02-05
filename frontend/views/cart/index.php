@@ -35,7 +35,7 @@ use yii\helpers\Url;
                     <td><?= $item['price'] ?></td>
                     <td>
                         <!-- item-quantity is a class identifier  -->
-                        <input type="number" value="<?= $item['quantity'] ?>" class="form-control item-quantity" style="width:80px;">
+                        <input type="number" min="1" value="<?= $item['quantity'] ?>" class="form-control item-quantity" style="width:80px;">
                     </td>
                     <td><?= $item['total_price'] ?></td>
                     <td>

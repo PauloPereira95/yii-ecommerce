@@ -145,7 +145,7 @@ WHERE c.created_by = :userId", ['userId' => Yii::$app->user->id])
             return new NotFoundHttpException("Product does not exist ! ");
         }
         $quantity = Yii::$app->request->post('quantity');
-
+        
         // if user is guest get the cart items form session
         if (isGuest()) {
             $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY,[]);
