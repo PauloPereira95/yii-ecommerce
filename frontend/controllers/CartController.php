@@ -159,7 +159,15 @@ class CartController extends \frontend\base\Controller
             }
         }
 
-        return CartItem::getTotalQuantityForUser(currentUserid());
+        $cartQuantity = CartItem::getTotalQuantityForUser(currentUserid());
+        // get total price for the product is modified
+        $totalPrice =  Yii::$app->formatter->asCurrency(CartItem::getTotalPriceProduct($id));
+        //formatt return in to json for the ajax
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'totalQuantity' => $cartQuantity,
+            'totalPrice' => $totalPrice,
+        ];
     }
     public function actionCheckout()
     {
