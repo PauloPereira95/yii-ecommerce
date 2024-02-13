@@ -10,6 +10,7 @@ use yii\bootstrap5\ActiveForm;
 /** @var int $productQuantity  */
 /** @var float $totalPrice  */
 ?>
+<script src="https://www.paypal.com/sdk/js?client-id=AdFaWjriPYLCZVL5uPhX0h_IIDMcsf98AZaGsTNHP4Wt5tKZN-VIgqsAK8G-kbpY3prFYRsiTcA2aSAy"></script>
 <?php $form = ActiveForm::begin(
     [
         'action' => [''],
@@ -66,12 +67,38 @@ use yii\bootstrap5\ActiveForm;
                         </td>
                     </tr>
                 </table>
-                <p class="d-flex justify-content-end mt-3">
-                    <button class="btn btn-secondary">Checkout</button>
-                </p>
+                <div id="paypal-button-container">
+
+                </div>
+<!--                <p class="d-flex justify-content-end mt-3">-->
+<!--                    <button class="btn btn-secondary">Checkout</button>-->
+<!--                </p>-->
             </div>
         </div>
     </div>
 </div>
 
 <?php ActiveForm::end(); ?>
+<script>
+    paypal.Buttons({
+        createOrder : function (data , actions) {
+            // The function sets  up the details of the transaction , including the amount and line item details.
+            return actions.order.create({
+              purchase_units : [{
+                  amount : {
+                      value : <?= $totalPrice?>
+                  }
+              }]
+            });
+        },
+        onApprove : function (data,actions) {
+            console.log(data,actions);
+            //This function  captures teh funds from the transaction
+            return actions.order.capture().then(function (details) {
+
+               // This function shows a transaction success message to your browser
+               alert('Transaction completed ' + details.payer.name.given_name);
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
