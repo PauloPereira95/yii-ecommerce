@@ -3,6 +3,9 @@
 namespace common\models;
 
 use Yii;
+use yii\base\Exception;
+use yii\db\Transaction;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "{{%orders}}".
@@ -18,12 +21,14 @@ use Yii;
  * @property int|null $created_by
  *
  * @property User $createdBy
- * @property OrderAddresses $orderAddresses
+ * @property OrderAddresses[] $orderAddresses
  * @property OrderItems[] $orderItems
  */
 class Order extends \yii\db\ActiveRecord
 {
     const STATUS_DRAFT = 0;
+    const STATUS_COMPLETED = 1;
+    const STATUS_FAILURED = 2;
     /**
      * {@inheritdoc}
      */
@@ -103,4 +108,32 @@ class Order extends \yii\db\ActiveRecord
     {
         return new \common\models\query\OrderQuery(get_called_class());
     }
+    public function saveOrderItems(){
+        $cartItems = CartItem::getItemsForUser(currentUserid());
+        foreach ($cartItems as $cartItem) {
+            $orderItem = new OrderItem();
+            $orderItem->product_name = $cartItem['name'];
+            $orderItem->product_id = $cartItem['id'];
+            $orderItem->unit_price = $cartItem['price'];
+            $orderItem->order_id = $this->id;
+            $orderItem->quantity = $cartItem['quantity'];
+            if (!$orderItem->save()) {
+                // Show error message if Order Item as not saved
+                throw new \yii\db\Exception("Order Item was not saved:".implode('<br>' , $orderItem->getFirstErrors()));
+                break;
+            }
+        }
+        return true;
+    }
+    public function saveAddress($postData){
+        $orderAddress = new OrderAddresses();
+        $orderAddress->order_id  = $this->id;
+        if ($orderAddress->load($postData) && $orderAddress->save()){
+            return true;
+        } else {
+            throw new \yii\db\Exception("Could not save order address".implode("<br>" , $orderAddress->getFirstErrors()));
+        }
+
+    }
+
 }

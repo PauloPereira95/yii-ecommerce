@@ -59,13 +59,20 @@ class CartItem extends \yii\db\ActiveRecord
     }
     public static function getItemsForUser(?int $currUserid)
     {
-        return Cartitem::findBySql("SELECT 
+        // If user is not authorize / (Is Guestged)
+        if (Yii::$app->user->isGuest) {
+            // show products save in session if is empty show empty array
+            $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY, []);
+        } else {
+
+            $cartItems = Cartitem::findBySql("SELECT 
     c.product_id as id, p.image, p.name, p.price, c.quantity, p.price * c.quantity AS total_price
     FROM cart_items c
     LEFT JOIN products p ON p.id = c.product_id
     WHERE c.created_by = :userId", ['userId' => $currUserid])
             ->asArray()->all();
-
+        }
+        return $cartItems;
     }
     public static function getTotalPriceProduct($product_id)
     {
@@ -127,5 +134,13 @@ class CartItem extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \common\models\query\CartItemQuery(get_called_class());
+    }
+    public static function clearCartitems($currentUserId)
+    {
+        if (isGuest()) {
+            Yii::$app->session->remove(CartItem::SESSION_KEY);
+        } else {
+            CartItem::deleteAll(['created_by' => $currentUserId]);
+        }
     }
 }
