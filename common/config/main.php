@@ -11,7 +11,7 @@ return [
         ],
         'formatter' => [
             'class' => 'yii\i18n\Formatter',
-            'currencyCode' => '€', // Set your default currency code here 
+            'currencyCode' => 'EUR', // Set your default currency code here 
             // formatting date
             'datetimeFormat' => 'php: d / m / y  H:i',
         ],

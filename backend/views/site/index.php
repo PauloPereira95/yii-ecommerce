@@ -4,6 +4,7 @@
 
 $this->title = 'My Yii Application';
 ?>
+<?= die('123'); ?>
 <div class="site-index">
 
     <div class="jumbotron text-center bg-transparent">

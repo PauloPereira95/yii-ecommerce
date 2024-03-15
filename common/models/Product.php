@@ -24,9 +24,9 @@ use yii\behaviors\TimestampBehavior;
  * @property int|null $created_by
  * @property int|null $updated_by
  *
- * @property CartItems[] $cartItems
+ * @property CartItem[] $cartItems
  * @property User $createdBy
- * @property OrderItems[] $orderItems
+ * @property OrderItem[] $orderItems
  * @property User $updatedBy
  */
 class Product extends \yii\db\ActiveRecord
@@ -114,7 +114,7 @@ class Product extends \yii\db\ActiveRecord
      */
     public function getOrderItems()
     {
-        return $this->hasMany(OrderItems::class, ['product_id' => 'id']);
+        return $this->hasMany(OrderItem::class, ['product_id' => 'id']);
     }
 
     /**

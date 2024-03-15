@@ -15,7 +15,7 @@ use yii\helpers\StringHelper;
                 <?= $model->name ?>
             </h5>
             <!-- Product price-->
-            <?= Yii::$app->formatter->asCurrency($model->price) ?>
+            <?//= Yii::$app->formatter->asCurrency($model->price) ?>
             <div class="card-text">
                 <!-- Show max 30 caracters and remove tags like strong etc -->
                 <?= $model->getShortDescription() ?>
