@@ -3,7 +3,9 @@
 /** @var \yii\web\View $this */
 
 /** @var string $content */
-/** @var  */
+
+/** @var */
+
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
@@ -42,7 +44,7 @@ AppAsset::register($this);
         ]);
         $menuItems = [
             [
-                'label' => 'Cart <span id="cart-quantity" class="badge bg-danger" >'.$carItemsCount.'</span>',
+                'label' => 'Cart <span id="cart-quantity" class="badge bg-danger" >' . $carItemsCount . '</span>',
                 'url' => ['/cart/index'],
                 'encode' => false
 
@@ -97,7 +99,7 @@ AppAsset::register($this);
                 <?= date('Y') ?>
             </p>
             <p class="float-end">
-                <?= Yii::powered() ?>
+                <?= Yii::powered() ." e Paulo Pereira"?>
             </p>
         </div>
     </footer>
