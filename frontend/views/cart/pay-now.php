@@ -5,7 +5,7 @@ use common\models\Order;
 
 $orderAddress = $order->orderAddresses;
 ?>
-    <script src="https://www.paypal.com/sdk/js?client-id=AdFaWjriPYLCZVL5uPhX0h_IIDMcsf98AZaGsTNHP4Wt5tKZN-VIgqsAK8G-kbpY3prFYRsiTcA2aSAy"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=<?= param('paypalClientId') ?>"></script>
     <h3 class="mb-5">Order Summary : # <?= $order->id ?></h3>
 <?php if (!empty($order)) : ?>
     <div class="row">
